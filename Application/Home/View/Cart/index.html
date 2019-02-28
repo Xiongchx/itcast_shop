@@ -1,0 +1,102 @@
+<div class="usercenter">
+<include file="User:menu" />
+	<div class="content left">我的购物车
+		<form method="post">
+		<table border="1" id="shopcart">
+			<tr class="tr-tit"><th class="w50"><a href="javascript:void(0);" onclick="checkedAll()">全选</a></th><th>商品</th><th class="w50">单价</th><th class="w92">数量</th><th class="w50">操作</th></tr>
+			<foreach name="cart" item="v">
+			<tr class="item">
+				<td class="center"><input type="checkbox" class="check"/></td>
+				<td><a href="__MODULE__/Index/goods/id/{$v.gid}" target="_blank">{$v.gname}</a></td>
+				<td class="center"><span class="item-price">{$v.price}</span></td>
+				<td><input class="setNum" type="button" value="-" /><input class="item-num" onkeyup="checkNum(this)" type="text" value="{$v.num}" name="num[]"/><input class="setNum"  type="button" value="+" /></td>
+				<td class="center"><a href="__CONTROLLER__/del/scid/{$v.scid}" />删除</a></td>
+			</tr>
+			</foreach>
+			<tr><th><a href="javascript:void(0);" onclick="checkedAll()">全选</a></th><td colspan="4">删除选中的商品&nbsp;&nbsp;继续购物&nbsp;&nbsp;
+				共<span id="num"></span>件商品 总计：<span class="price">￥<span id="monery"></span></span><input type="hidden" id="totalPrice" name="totalPrice"/>
+				<input type="submit" value="提交订单" class="order-btn" />
+			</td></tr>
+		</table>
+		</form>
+	</div>
+	<div class="clear"></div>
+</div>
+<script>
+	//点击修改数量
+	$(".setNum").click(function () {
+		if ($(this).val() === '-') {
+			if ($(this).next().val() !== '1') {
+				var num = $(this).next().val() - 1;
+				$(this).next().attr("value", num);
+				$(this).next().val(num);
+			}
+		}else if ($(this).val() === '+') {
+			if ($(this).prev().val() !== '100') {
+				var num = parseInt($(this).prev().val()) + parseInt(1);
+				$(this).prev().attr("value", num);
+				$(this).prev().val(num);
+			}
+		}
+		func();
+	});
+	//键盘修改数量
+	function checkNum(obj) {
+		//判断当前值是否合法   凡是不合法的都重置为1
+		var num = $(obj).val();
+		if (num <= 1 || num >= 100) {
+			$(obj).val(1);
+		}
+		func();
+	}
+	//默认情况下，设置为全选状态
+	$(function () {
+		$(":checkbox").prop("checked", true);
+		$(":checkbox").attr("checked", true);
+		func();
+	});
+	//全选
+	function checkedAll() {
+		$(":checkbox").each(function () {
+			if (this.checked) {
+				$(this).prop("checked", false);
+				$(this).attr("checked", false);
+			} else {
+				$(this).prop("checked", true);
+				$(this).attr("checked", true);
+			}
+		});
+		func();
+	}
+	//单个选择时的状态设置
+	$(".check").click(function () {
+		$(this).each(function (i, v) {
+			if (!v.checked) {
+				$(this).prop("checked", false);
+				$(this).attr("checked", false);
+			} else {
+				$(this).prop("checked", true);
+				$(this).attr("checked", true);
+			}
+		});
+		func();
+	});
+	//计算总价
+	function func() {
+		var price = 0;
+		var num = 0;
+		var totalnum = 0;
+		$(".item").find(":checkbox:checked").each(function () {
+			$(this).closest("tr").find(".item-num").each(function () {
+				totalnum += parseInt($(this).val());
+				num = parseInt($(this).val());
+				$(this).closest("tr").find(".item-price").each(function () {
+					price += parseInt($(this).text()) * num;
+				});
+			});
+		});
+		$("#monery").text(price);
+		$("#num").text(totalnum);
+		$("#totalPrice").attr("value",price);
+	}
+</script>

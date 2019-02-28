@@ -1,0 +1,19 @@
+<div id="slide">
+	<div class="clear"></div>
+</div>
+<div id="hot" class="left"></div>
+<div id="news" class="right">新闻列表</div>
+<div class="clear"></div>
+<div id="best">
+	<div class="best-img left"></div>
+	<div class="clear"></div>
+</div>
+<script>
+	$(".cate").hover(function(){
+		$(this).find(".subitem").show();
+		$(this).find("a").addClass("on");
+	},function(){
+		$(this).find(".subitem").hide();
+		$(this).find("a").removeClass("on");
+	});
+</script>
