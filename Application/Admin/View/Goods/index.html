@@ -1,0 +1,27 @@
+<div class="title">商品列表</div>
+<div class="title-btn left"><a href="__CONTROLLER__/add/cid/{$cid}">添加商品</a></div>
+<div class="data-list clear">请选择商品分类：
+	<select name="cid">
+		<option value="0">全部</option>
+		<foreach name="category" item="v">
+			<option value="{$v.cid}" <eq name="v.cid" value="$cid">selected</eq> >{:str_repeat('--',$v['deep']).$v['cname']}</option>
+		</foreach>
+	</select>
+	<table border="1">
+		<tr><th width="80">商品编号</th><th>商品名</th><th width="80">上架</th><th width="80">推荐</th><th width="120">操作</th></tr>
+		<foreach name="goods.list" item="v">
+		<tr><td>{$v.identifier}</td>
+			<td>{$v.gname}</td>
+			<td class="center"><a href="__CONTROLLER__/change/status/{$v.status}/gid/{$v.gid}/cid/{$cid}"><eq name="v.status" value="yes">是<else/>否</eq></a></td>
+			<td class="center"><a href="__CONTROLLER__/change/is_best/{$v.is_best}/gid/{$v.gid}/cid/{$cid}"><eq name="v.is_best" value="yes">是<else/>否</eq></a></td>
+			<td class="center"><a href="__CONTROLLER__/revise/gid/{$v.gid}/cid/{$cid}">修改</a> <a href="__CONTROLLER__/del/gid/{$v.gid}/cid/{$cid}">删除</a></td></tr>
+		</foreach>
+	</table>
+	<div class="pagelist">{$goods.page}</div>
+</div>
+<script>
+	$("select").change(function(){
+		window.location.href = "__ACTION__/cid/" + $(this).val();
+	});
+	$("tr:odd").addClass("odd");
+</script>
