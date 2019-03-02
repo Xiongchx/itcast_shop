@@ -27,8 +27,24 @@
 		</ul>
 	</div>
 	<div id="content">
-		<div class="item"><div class="title">后台首页</div>
-<div class="data-list clear">欢迎进入传智商城后台！请从左侧选择一个操作。</div></div>
+		<div class="item"><div class="title">属性添加页面</div>
+<div class="data-edit clear">
+	<form method="post">
+	<input type="hidden" value="<?php echo ($cid); ?>" name="cid" />
+	<table>
+		<tr><td>属性名</td><td>属性默认值</td></tr>
+		<tr>
+			<td><input type="text" name="aname" /></td>
+			<td><input type="text" name="a_def_val" /></td>
+		</tr>
+		<tr class="tr_btn center">
+			<td colspan="2"><input type="submit" value="确定" /><input type="reset" 
+value="重置" /></td>
+		</tr>
+	</table>
+	</form>
+</div>
+</div>
 	</div>
 </div>
 <script>

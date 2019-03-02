@@ -27,8 +27,21 @@
 		</ul>
 	</div>
 	<div id="content">
-		<div class="item"><div class="title">后台首页</div>
-<div class="data-list clear">欢迎进入传智商城后台！请从左侧选择一个操作。</div></div>
+		<div class="item"><div class="title">商品添加 - 请选择分类</div>
+<div class="data-list clear">请选择商品分类：
+	<select name="cid" onchange="getGoodsByCid(this)">
+		<option value="0">未选择</option>
+		<?php if(is_array($category)): foreach($category as $key=>$v): ?><option value="<?php echo ($v["cid"]); ?>" >
+			<?php echo str_repeat('--',$v['deep']).$v['cname'];?>
+		</option><?php endforeach; endif; ?>
+	</select>
+</div>
+<script>
+    function getGoodsByCid(obj) {
+        window.location.href = "/shop/Admin/Goods/add/cid/" + $(obj).val();
+    }
+</script>
+</div>
 	</div>
 </div>
 <script>

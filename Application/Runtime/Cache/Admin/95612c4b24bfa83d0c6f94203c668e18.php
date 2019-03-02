@@ -27,8 +27,23 @@
 		</ul>
 	</div>
 	<div id="content">
-		<div class="item"><div class="title">后台首页</div>
-<div class="data-list clear">欢迎进入传智商城后台！请从左侧选择一个操作。</div></div>
+		<div class="item"><div class="title">商品分类添加</div>
+<div class="data-edit clear">
+	<form method="post">
+	<table>
+		<tr><th>分类名称：</th><td><input type="text" name="cname" /></td></tr>
+		<tr><th>上级分类：</th><td><select name="pid">
+			<option value="0">顶级分类</option>
+			<?php if(is_array($category)): foreach($category as $key=>$v): ?><option 
+value="<?php echo ($v["cid"]); ?>"><?php echo str_repeat('--',$v['deep']).$v['cname'];?></option><?php endforeach; endif; ?>
+		</select></td></tr>
+		<tr class="tr_btn center">
+			<td colspan="2"><input type="submit" value="确定" /><input type="reset" 
+value="重置" /></td>
+		</tr>
+	</form>
+</div>
+</div>
 	</div>
 </div>
 <script>

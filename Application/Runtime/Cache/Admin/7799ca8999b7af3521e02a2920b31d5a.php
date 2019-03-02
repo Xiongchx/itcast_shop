@@ -27,8 +27,28 @@
 		</ul>
 	</div>
 	<div id="content">
-		<div class="item"><div class="title">后台首页</div>
-<div class="data-list clear">欢迎进入传智商城后台！请从左侧选择一个操作。</div></div>
+		<div class="item"><div class="title">商品属性列表</div>
+<div class="title-btn left"><a href="/shop/Admin/Attribute/add/cid/<?php echo ($cid); ?>">添加属性</a></div>
+<div class="data-list clear">请选择商品分类：
+	<select name="cid">
+		<?php if(empty($category)): ?><option value="-1">未选择</option><?php endif; ?>
+		<?php if(is_array($category)): foreach($category as $key=>$v): ?><option value="<?php echo ($v["cid"]); ?>" <?php if(($v["cid"]) == $cid): ?>selected<?php endif; ?> ><?php echo str_repeat('--',$v['deep']).$v['cname'];?>
+</option><?php endforeach; endif; ?>
+	</select>
+	<table border="1">
+		<tr><th>属性名</th><th>属性默认值</th><th width="120">操作</th></tr>
+		<?php if(is_array($attr)): foreach($attr as $key=>$v): ?><tr><td><?php echo ($v["aname"]); ?></td><td><?php echo ($v["a_def_val"]); ?></td><td class="center">
+<a  href="/shop/Admin/Attribute/revise/aid/<?php echo ($v["aid"]); ?>/cid/<?php echo ($v["cid"]); ?>">修改</a> 
+<a  href="/shop/Admin/Attribute/del/aid/<?php echo ($v["aid"]); ?>/cid/<?php echo ($v["cid"]); ?>">删除</a></td></tr><?php endforeach; endif; ?>
+	</table>
+</div>
+<script>
+	$("select").change(function(){
+		window.location.href = "/shop/Admin/Attribute/index/cid/" + $(this).val();
+	});
+	$("tr:odd").addClass("odd");
+</script>
+</div>
 	</div>
 </div>
 <script>
