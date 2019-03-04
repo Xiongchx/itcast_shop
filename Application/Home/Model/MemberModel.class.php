@@ -38,6 +38,20 @@ class MemberModel extends Model {
     private function password($pwd, $salt) {
         return md5(md5($pwd) . $salt);
     }
+    
+    // 获取收件地址
+    public function getAddr($mid) {
+        $data = $this->field(
+                        'consignee,address,email,phone'  // 收件人  收件地址 邮箱 手机号码
+                )->where("mid=$mid")->find();
+        // 分割 收件地址 的字符串
+        $data['area'] = explode(',', $data['address'], 4); // 最多分割四次
+        if (count($data['area'] != 4)) {
+            // 分割后的数组元素不是4个  地址无效
+            $data['area'] = array('', '请选择', '请选择');
+        }
+        return $data;
+    }
 
     // 插入数据前回调方法
     protected function _before_insert(&$data, $options) {

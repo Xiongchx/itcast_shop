@@ -25,6 +25,33 @@ class UserController extends CommonController {
         }
     }
     
+    //会员中心首页
+    public function index(){
+        $this->display();
+    }
+    
+    // 查看收货地址
+    public function addr(){
+        $mid= $this->userInfo['mid'];
+        $data['addr']=D('member')->getAddr($mid);
+        $this->assign($data);
+        $this->display();
+    }
+    
+    // 修改收货地址
+    public function addrEdit(){
+        if(IS_POST){
+            $mid= $this->userInfo['mid'];
+            $rst= $this->create('member', 'save',2,"mid=$mid");
+            if($rst===false){
+                $this->error('修改失败');
+            }
+            $this->redirect('User/addr');
+            return ;
+        }
+        $this->addr();
+    }
+    
     // 用户登陆
     public function login(){
         if(IS_POST){
