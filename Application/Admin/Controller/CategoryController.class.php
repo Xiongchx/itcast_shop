@@ -89,7 +89,8 @@ class CategoryController extends CommonController {
         $rst = $Category->where("cid=$cid")->delete();
         // 删除关联属性
         M('attribute')->where("cid=$cid")->delete();
-        // 删除关联商品   功能暂缺
+        // 删除关联商品   
+        D('goods')->delAllByCid($cid);
         // 返回结果
         $this->ajaxReturn(array('flag' => TRUE));
     }

@@ -24,7 +24,7 @@ class GoodsAttrModel extends Model {
 			left join (select gaid,gid,aid,avalue from $goodsAttr where gid=$gid) as ga
 			on ga.aid=a.aid where a.cid=$cid";
         $data = $this->query($sql);
-        valToArr($data, 'a_def_val');
+        varToArr($data, 'a_def_val');
         return $data;
     }
 
