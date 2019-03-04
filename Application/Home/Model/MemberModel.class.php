@@ -44,5 +44,19 @@ class MemberModel extends Model {
         $data['salt']= substr(uniqid(), -6);
         $data['pwd']= $this->password($data['pwd'], $data['salt']);
     }
+    
+    // 会员登陆验证
+    public function checkUser($name, $pwd) {
+        $data = $this->field('mid,user,pwd,salt')->where(array('user' => $name))->find();
+        if ($data === null) {
+            return '用户名不存在';
+        }
+        if ($data['pwd'] == $this->password($pwd, $data['salt'])) {
+            session('user_name', $name);
+            session('user_id', $data['mid']);
+            return true;
+        }
+        return '密码错误';
+    }
 
 }

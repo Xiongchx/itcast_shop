@@ -14,7 +14,41 @@ namespace Home\Controller;
  * @author 26917
  */
 class UserController extends CommonController {
-
+    public function __construct() {
+        parent::__construct();
+        $allow_action=array(
+            // 不需要检查登陆的方法列表
+            'login','captcha','register'
+        );
+        if($this->userInfo===false && !in_array(ACTION_NAME, $allow_action)){
+            $this->error('请先登陆',U('User/login'));
+        }
+    }
+    
+    // 用户登陆
+    public function login(){
+        if(IS_POST){
+            // 判断验证码
+            $this->checkVerify(I('post.captcha'));
+            // 判断用户名   密码
+            $name=I('post.user','','');
+            $pwd=I('post.pwd','','');
+            $rst=D('member')->checkUser($name,$pwd);
+            if($rst!==true){
+                $this->error($rst);
+            }
+            $this->success('登陆成功,请稍后', U('Index/index'));
+            return ;
+        }
+        $this->display();
+    }
+    
+    // 退出登陆
+    public function logout(){
+        session('[destroy]');
+        $this->success('退出成功', U('Index/index'));
+    }
+    
     // 用户注册
     public function register() {
         if (IS_POST) {
