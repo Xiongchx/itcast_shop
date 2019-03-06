@@ -1,0 +1,52 @@
+<div class="goodsinfo">
+	<div class="now_cat">当前位置：<foreach name="pcats" item="v">&nbsp;<a 
+		href="__CONTROLLER__/find/cid/{$v.cid}">{$v.cname}</a>&nbsp;&gt;</foreach>&nbsp;{$goods.gname}</div>
+	<div class="pic left"><empty name="goods.thumb"><img src="__PUBLIC__/image/preview2.jpg" /><else/>
+		<img src="__PUBLIC__/uploads/{$goods.thumb}" /></empty></div>
+	<div class="info left"><h1>{$goods.gname}</h1><table>
+		<tr><th>售 价：</th><td><span>￥{$goods.price}</span></td></tr>
+		<tr><th>商品编号：</th><td>{$goods.identifier}</td></tr>
+		<tr><th>累计销量：</th><td>1000</td></tr>
+		<tr><th>评 价：</th><td>1000</td></tr>
+		<tr><th>配送至：</th><td>北京（免运费）</td></tr>
+		<tr><th>购买数量：</th><td>
+			<input type="button" value="-" class="cnt-btn" />
+			<input type="text" value="1" id="num" class="num-btn" />
+			<input type="button" value="+" class="cnt-btn" />（库存：{$goods.stock}）</td></tr>
+		<tr><td colspan="2" class="button"><a href="#">立即购买</a><a href="#" onclick="addCart()">加入购物车</a></td></tr>
+		</table></div><div class="clear"></div>
+	<div class="slide left">相关商品</div>
+	<div class="desc left">
+		<div class="attr"><p>商品属性</p><ul>
+			<foreach name="attr" item="v"><li>{$v.aname}：{$v.avalue}</li></foreach>
+		<div class="clear"></div></ul></div>
+	{$goods.description|nl2br}</div>
+	<div class="clear"></div>
+</div>
+<script>
+	//购买数量加减
+	$(".cnt-btn").click(function(){
+		var num = parseInt($("#num").val());
+		if ($(this).val() === '-') {
+			if ( num=== 1) return;
+			$("#num").val(num-1);
+		}else if ($(this).val() === '+') {
+			if (num === {$goods.stock}) return;
+			$("#num").val(num+1);
+		}
+	});
+	//自动纠正购买数量
+	$("#num").keyup(function(){
+		var num = parseInt($(this).val());
+		if(num<1){ 
+			$(this).val(1);
+		}else if(num > {$goods.stock}){
+			$(this).val({$goods.stock});
+		}
+	});
+	//添加购物车
+	function addCart(){
+		var num = $("#num").val();
+		window.location.href = '__MODULE__/Cart/add/gid/{$gid}/num/'+num;
+	}
+</script>

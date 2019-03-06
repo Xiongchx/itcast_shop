@@ -5,14 +5,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 namespace Home\Model;
+
 use Think\Model;
+
 /**
  * Description of CategoryModel
  *
  * @author 26917
  */
-class CategoryModel extends Model{
+class CategoryModel extends Model {
+
     // 分类查找，限制查找深度
     // 获得列表
     public function getList($max_deep = 3) {
@@ -36,5 +40,17 @@ class CategoryModel extends Model{
         }
         return $result;
     }
-
+    
+    public function getPidList($cid){
+        $pcat=array();
+        while($cid){
+            $cat= $this->field('cid,cname,pid')->where("cid=$cid")->find();
+            $pcat[]=array(
+                'cid'=>$cat['cid'],
+                'cname'=>$cat['cname'],
+            );
+            $cid=$cat['pid'];
+        }
+        return array_reverse($pcat);
+    }
 }
